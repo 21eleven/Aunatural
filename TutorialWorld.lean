@@ -1,4 +1,7 @@
-import Aunatural.NattyLite
+import Aunatural.Natty
+
+-- import needed to recognize `lemma`
+import Mathlib.Tactic.Basic
 
 namespace Natty
 open Natty
@@ -28,5 +31,9 @@ lemma p3 : 2 = succ (succ 0) := by
       ⊢ 2 = succ (succ 0)
     like it does on the natural number game website
   -/
+
+lemma p3dot5 (a b : Natty) (h : (succ a) = b): succ b = succ (succ a) := by
+  rewrite [h]
+  rfl
 
 
