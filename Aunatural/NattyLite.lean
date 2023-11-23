@@ -1,58 +1,45 @@
-import Mathlib.Tactic.Basic
-import Mathlib.Tactic.Cases
-
-namespace Natty
-
+/-- These Natural Numbers are Au Natural 😮-/
 inductive Natty where
   | zero : Natty
   | succ : Natty → Natty
-  deriving BEq, DecidableEq, Inhabited 
-  -- deriving Inhabited 
+-- deriving BEq, DecidableEq, Inhabited
 
--- Inhabited:default is the value you get when you try to
--- get a value out of an array of type α but there is no value
--- at the index so it returns some default of type α. Apparently
--- this is required for "consistency" in lean
-instance : Inhabited Natty where
+@[inherit_doc]
+notation (name := NattyNotation) (priority := 1000000) "ℕ" => Natty
+
+namespace Natty
+
+instance : Inhabited Natty where 
   default := Natty.zero
 
-def nattyFromNat (x : Nat) : Natty :=
+-- @[Natty_decide] -- see NNG4 Game.Tactic.LabelAttr MyNat_decide attribute
+def fromNat (x : Nat) : Natty :=
+  -- should call this ofNat maybe
   match x with
   | Nat.zero => Natty.zero
-  -- w preceeds x
-  | Nat.succ w => Natty.succ (nattyFromNat w)
+  | Nat.succ w => Natty.succ (fromNat w)
 
-def natFromNatty (x : Natty) : Nat :=
+def toNat (x : Natty) : Nat :=
   match x with
   | Natty.zero => Nat.zero
-  | Natty.succ w => Nat.succ (natFromNatty w)
+  | Natty.succ w => Nat.succ (toNat w)
 
-instance : OfNat Natty n where
-  ofNat := nattyFromNat n
+instance instOfNat (n : Nat) : OfNat Natty n where
+  ofNat := fromNat n
 
 instance : ToString Natty where
-  toString some_natty := toString (natFromNatty some_natty)
+  toString n := toString (toNat n)
 
-def Natty.add : Natty → Natty → Natty 
-  | a, 0 => a
-  | a, Natty.succ b => Natty.succ (Natty.add a b)
+opaque add : Natty → Natty → Natty
 
-instance : Add Natty where  
+instance instAdd : Add Natty where
   add := Natty.add
 
-def Natty.mul : Natty → Natty → Natty 
-  | _, 0 => 0
-  | a, Natty.succ b => Natty.add a (Natty.mul a b)
-  -- the following is a redudant alternative:
-  -- | a, b + 1 => a + (Natty.mul a b)
+theorem zero_eq_0 : Natty.zero = 0 := rfl
 
-instance : Mul Natty where
-  mul := Natty.mul
+def one : Natty := Natty.succ 0
 
-theorem zero_is_0 : Natty.zero = 0 := by rfl 
-
-def one : Natty := Natty.succ 0 
-
-theorem one_is_1 : Natty.one = 1 := by rfl
+-- see https://github.com/leanprover-community/NNG4/blob/main/Game/MyNat/Definition.lean#L42
+attribute [-simp] Natty.succ.injEq
 
 
