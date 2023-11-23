@@ -1,7 +1,8 @@
 import Mathlib.Tactic.Basic
 import Mathlib.Tactic.Cases
 
-namespace Natty
+namespace NattyOrig
+open NattyOrig
 
 inductive Natty where
   | zero : Natty
@@ -53,6 +54,7 @@ theorem zero_is_0 : Natty.zero = 0 := by rfl
 
 def one : Natty := Natty.succ 0 
 
-theorem one_is_1 : Natty.one = 1 := by rfl
+-- commenting out as we named the namespace to Natty orig
+-- theorem one_is_1 : Natty.one = 1 := by rfl
 
 
