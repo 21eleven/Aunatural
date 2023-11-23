@@ -30,10 +30,17 @@ instance instOfNat (n : Nat) : OfNat Natty n where
 instance : ToString Natty where
   toString n := toString (toNat n)
 
+-- dummy addition
 opaque add : Natty → Natty → Natty
 
 instance instAdd : Add Natty where
   add := Natty.add
+
+-- dummy multiplication
+opaque mul : Natty → Natty → Natty
+
+instance : Mul Natty where
+  mul := Natty.mul
 
 theorem zero_eq_0 : Natty.zero = 0 := rfl
 
