@@ -1,6 +1,7 @@
 import Lean.Meta.Tactic.Refl
 import Lean.Elab.Tactic.Basic
 import Mathlib.Lean.Expr.Basic
+import Aunatural.Induction
 
 /-! # `rfl` tactic
 
