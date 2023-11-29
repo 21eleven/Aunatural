@@ -78,6 +78,17 @@ theorem succ_mul (a b: ℕ):
 
   rfl
 
+theorem mul_comm (a b: ℕ): a * b = b * a := by
+
+  induction b with x hx
+  
+  rw [zero_mul, mul_zero]
+
+  rfl
+
+  rw [succ_mul, mul_succ, hx]
+
+  rfl
 
 
 
