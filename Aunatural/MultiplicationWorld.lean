@@ -172,8 +172,19 @@ theorem mul_add (a b c : ℕ) :
 
   rfl
 
--- can be proved w/o induction
-theorem add_mul (a b c : ℕ) : (a + b) * c = a * c + b * c := by
+-- can be proved w induction or w/o induction
+theorem add_mul (a b c : ℕ):
+  (a + b) * c = a * c + b * c := by
+
+  rw [mul_comm]
+
+  rw [mul_add]
+  
+  repeat rw [mul_comm c]
+
+  rfl
+
+
 
 
 
