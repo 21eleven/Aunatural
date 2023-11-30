@@ -15,6 +15,13 @@ import Aunatural.AdditionWorld
 -- add_comm : a + b = b + a
 -- add_assoc : (a + b) + c = a + (b + c)
 -- add_right_comm : (a + b) + c = (a + c) + b
+-- import Aunatural.MultiplicationWorld
+-- mul_one : n * 1 = n
+-- zero_mul 0 * n = 0
+-- succ_mul : (succ a) * b = a * b + b
+-- mul_comm : a * b = b * a
+-- one_mul : 1 * n = n
+
 
 import Mathlib.Tactic
 import Mathlib.Tactic.Basic
@@ -89,6 +96,97 @@ theorem mul_comm (a b: ℕ): a * b = b * a := by
   rw [succ_mul, mul_succ, hx]
 
   rfl
+
+theorem one_mul (n: ℕ): 1 * n = n := by
+
+  induction n with x hx
+
+  rw [mul_zero]
+
+  rfl
+
+  rw [mul_succ]
+
+  rw [succ_eq_add_one]
+  
+  rw [hx]
+
+  rfl
+
+theorem two_mul (m: ℕ): 2 * m = m + m := by 
+
+  induction m with x hx
+
+  rw [mul_zero, add_zero]
+
+  rfl
+
+  rw [mul_succ]
+
+  rw [succ_add]
+
+  rw [succ_eq_add_one]
+
+  rw [add_succ]
+
+  rw [succ_eq_add_one]
+
+  rw [hx]
+
+  rw [two_eq_succ_one]
+
+  rw [← succ_eq_add_one]
+
+  rw [add_comm, succ_add]
+
+  rw [← add_assoc]
+
+  rw [add_comm 1 x]
+
+  rw [add_right_comm]
+
+  rfl
+
+theorem mul_add (a b c : ℕ) :
+  a * (b + c) = a * b + a * c := by
+
+  induction a with x hx
+
+  repeat rw [zero_mul]
+
+  rw [add_zero]
+
+  rfl
+
+  repeat rw [succ_mul]
+
+  rw [hx]
+
+  rw [add_right_comm (x * b) b]
+
+  rw [← add_assoc (x * b)]
+
+  rw [add_assoc _ c]
+
+  rw [add_comm b]
+
+  rfl
+
+-- can be proved w/o induction
+theorem add_mul (a b c : ℕ) : (a + b) * c = a * c + b * c := by
+
+
+
+
+
+
+
+
+
+
+  
+
+
 
 
 
